@@ -1,0 +1,44 @@
+[
+    {
+        "transactionName": "landRecordExists",
+        "transactionLabel": "A test landRecordExists transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "createLandRecord",
+        "transactionLabel": "A test createLandRecord transaction",
+        "arguments": [
+            "001",
+            "some value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "readLandRecord",
+        "transactionLabel": "A test readLandRecord transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "updateLandRecord",
+        "transactionLabel": "A test updateLandRecord transaction",
+        "arguments": [
+            "001",
+            "some other value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "deleteLandRecord",
+        "transactionLabel": "A test deleteLandRecord transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    }
+]
