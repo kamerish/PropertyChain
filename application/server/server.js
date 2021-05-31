@@ -1,11 +1,16 @@
-var express=require('express');
-var app=express();
-
-var server = app.listen(3000,function() {});
-
 const utils = require('./app.js');
 
+var express=require('express');
+var app=express();
+var cors = require('cors');
+
+
+app.use(cors());
+var server = app.listen(3000,function() {});
+
+
 var contract;
+
 utils.start().then((gateway_contract) => {
 
     console.log('Connected to Network.');
@@ -26,49 +31,91 @@ app.get('/',function(req,res)
 
 
 var num = '558'; 
-app.get('/create',function(req,res){
-    
-    async function ll(){
-        console.log("Initation creating Request");
-        result = await contract.submitTransaction('createLandRecord',num,'kamerish');
-        res.send(result+"\n created");
-        
-    }
-    ll();  
-    
-})
 
-app.get('/read',function(req,res){
-    
-    async function ll(){
-        console.log("Initation Reading Request");
-        result = await contract.submitTransaction('readLandRecord',num);
-        res.send(result+"\n read");
-        
-    }
-    ll();    
-})
 
-app.get('/update',function(req,res){
+app.get('/create', function(request, response) {
     
+    console.log(request.query);
+    let recordname = request.query.name;
+    let recordNumber = request.query.id;
     async function ll(){
-        console.log("Initation updating Request");
-        result = await contract.submitTransaction('updateLandRecord',num,"Subiksha");
-        res.send(result+"\n Updated");
-        
-    }
-    ll();    
-})
-app.get('/delete',function(req,res){
+                console.log("Initation Reading Request");
+                try{
+                    result = await contract.submitTransaction('createLandRecord',recordNumber,recordname);
+                    result = {"value":"The Land Record "+ recordNumber+" Has Been Succesfuly Created"};
+                }catch(err){
+                    result = {"value":"The Land Record "+ recordNumber+" aldready Exists"};
+                }finally{
+                    response.send(result);
+                }
+            }
+            ll(); 
     
-    async function ll(){
-        console.log("Initation deleting Request");
-        result = await contract.submitTransaction('deleteLandRecord',num);
-        res.send(result+"\n Deleted");
-        
-    }
-    ll();    
-})
+  })
 
+
+
+
+app.get('/read', function(request, response) {
+    
+    console.log(request.query);
+    let recordNumber = request.query.id;
+    async function ll(){
+                console.log("Initation Reading Request");
+                try{
+                    result = await contract.submitTransaction('readLandRecord',recordNumber);
+                    result = result+"";
+                }catch(err){
+                    result = {"value":"The Land Record "+ recordNumber+" does not Exists"};
+                }finally{
+                    response.send(result);
+                }
+            }
+            ll(); 
+    
+  })
+
+  app.get('/update', function(request, response) {
+    
+    console.log(request.query);
+    let recordname = request.query.name;
+    let recordNumber = request.query.id;
+    async function ll(){
+                console.log("Initation Updation Request");
+                try{
+                    result = await contract.submitTransaction('updateLandRecord',recordNumber,recordname);
+                    result = {"value":"The Land Record "+ recordNumber+" Has Been Transferred to "+ recordname};
+                }catch(err){
+                    result = {"value":"The Land Record "+ recordNumber+" does not Exists"};
+                }finally{
+                    response.send(result);
+                }
+            }
+            ll(); 
+    
+  })
+
+
+
+
+
+app.get('/delete', function(request, response) {
+    
+    console.log(request.query);
+    let recordNumber = request.query.id;
+    async function ll(){
+                console.log("Initation Deleting Request");
+                try{
+                    result = await contract.submitTransaction('deleteLandRecord',recordNumber);
+                    result = {"value":"The Land Record "+ recordNumber+" Has Been Deleted"};
+                }catch(err){
+                    result = {"value":"The Land Record "+ recordNumber+" does not Exists"};
+                }finally{
+                    response.send(result);
+                }
+            }
+            ll(); 
+    
+  })
 
 
