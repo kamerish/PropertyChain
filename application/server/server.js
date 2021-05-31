@@ -119,3 +119,22 @@ app.get('/delete', function(request, response) {
   })
 
 
+  app.get('/history', function(request, response) {
+    
+    console.log(request.query);
+    let recordNumber = request.query.id;
+    async function ll(){
+                console.log("Initation History Request");
+                try{
+                    result = await contract.submitTransaction('getHistoryOfLand',recordNumber);
+                    result = result+"";
+                }catch(err){
+                    result = {"value":"The Land Record "+ recordNumber+" does not Exists"};
+                }finally{
+                    response.send(result);
+                }
+            }
+            ll(); 
+    
+  })
+

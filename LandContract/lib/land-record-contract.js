@@ -57,7 +57,6 @@ class LandRecordContract extends Contract {
         const results = [];
         for await (const keyMod of promiseOfIterator) {
             const resp = {
-                timestamp: keyMod.timestamp,
                 txid: keyMod.tx_id
             }
             if (keyMod.is_delete) {
@@ -69,7 +68,6 @@ class LandRecordContract extends Contract {
         }
         return results;
     }
-
 }
 
 module.exports = LandRecordContract;
